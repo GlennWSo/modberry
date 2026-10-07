@@ -10,6 +10,10 @@
     };
   };
 
+  nixConfig = {
+    extra-substituters = ["http://nix.sondell.org"];
+    extra-trusted-public-keys = ["nix.sondell.org-1:Qgy0jITf2Ny70N71itHhXTLHWtmTk9ckQAbBAkmkMrQ="];
+  };
   outputs = {
     nixpkgs,
     nixos-hardware,
