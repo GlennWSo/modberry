@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
+    flake-utils.url = "github:numtide/flake-utils";
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,18 +13,35 @@
   outputs = {
     nixpkgs,
     nixos-hardware,
+    flake-utils,
     ...
-  } @ _inputs: {
-    nixosConfigurations = {
-      modberry = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          ./configuration.nix
-          ./users.nix
-          ./networking.nix
-          nixos-hardware.nixosModules.raspberry-pi-4
+  } @ _inputs: let
+    systems = ["x86_64-linux" "aarch64-linux"];
+    pkgsOutputs = flake-utils.lib.eachSystem systems (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+    in {
+      devShells.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          rpiboot
+          usbutils
         ];
       };
-    };
-  };
+    });
+  in
+    {
+      nixosConfigurations = {
+        modberry = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./configuration.nix
+            ./users.nix
+            ./networking.nix
+            nixos-hardware.nixosModules.raspberry-pi-4
+          ];
+        };
+      };
+    }
+    // pkgsOutputs;
 }
