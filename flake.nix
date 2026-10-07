@@ -38,6 +38,7 @@
             ./configuration.nix
             ./users.nix
             ./networking.nix
+            ./modberry.nix
             nixos-hardware.nixosModules.raspberry-pi-4
           ];
         };
