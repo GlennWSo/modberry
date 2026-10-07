@@ -39,7 +39,9 @@
             ./users.nix
             ./networking.nix
             ./modberry.nix
+            ./sdimg.nix
             nixos-hardware.nixosModules.raspberry-pi-4
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           ];
         };
       };
