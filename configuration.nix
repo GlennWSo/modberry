@@ -18,6 +18,7 @@
       grub.enable = false;
     };
 
+    initrd.allowMissingModules = true;
     # kernelPackages = pkgs.linuxPackages_rpi4;
   };
   hardware = {
