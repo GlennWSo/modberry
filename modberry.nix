@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   boot = {
+    initrd.allowMissingModules = true;
     loader = {
       generic-extlinux-compatible.enable = true;
 
@@ -35,4 +36,3 @@
     };
   };
 }
-
