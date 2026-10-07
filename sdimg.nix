@@ -1,11 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   sdImage = {
-    compressImage = false;
-    imageName = "nixos-cm4-debug.img";
+    compressImage = true;
 
-    postBuildCommands = ''
-      echo "Generating bmap metadata files..."
-      ${pkgs.bmaptool}/bin/bmaptool create "$img" > "$out/sd-image/nixos-cm4-debug.bmap"
-    '';
+    # postBuildCommands = ''
+    #   echo "Generating bmap file..."
+    #   ${pkgs.bmaptool}/bin/bmaptool create -o "$out/sd-image/${config.sdImage.imageName}.bmap" "$img"
+    # '';
   };
 }
